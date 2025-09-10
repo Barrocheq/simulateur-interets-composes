@@ -1,8 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  experimental: {
-    appDir: true,
-  },
+  // Configuration Next.js 14 - App Router est maintenant stable
 }
 
 module.exports = nextConfig

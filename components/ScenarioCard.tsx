@@ -93,7 +93,7 @@ export default function ScenarioCard({
                     }`}
                     style={{ 
                       backgroundColor: color,
-                      ringColor: isLast ? color : undefined
+                      ...(isLast ? { '--tw-ring-color': color } as React.CSSProperties : {})
                     }}
                   ></div>
                   {!isLast && (
