@@ -3,42 +3,136 @@
 @import 'tailwindcss/components';
 @import 'tailwindcss/utilities';
 
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
 
 @layer base {
   html {
     font-family: 'Inter', system-ui, sans-serif;
+    scroll-behavior: smooth;
   }
   
   body {
     background-color: var(--color-background);
     color: var(--color-foreground);
-    line-height: 1.6;
+    line-height: var(--line-height-base);
+    font-size: var(--font-size-base);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
   
   * {
     box-sizing: border-box;
   }
+  
+  /* Typographie IMpakt28 */
+  h1, h2, h3, h4, h5, h6 {
+    line-height: var(--line-height-base);
+    font-weight: 600;
+    letter-spacing: -0.025em;
+  }
+  
+  h1 {
+    font-size: var(--font-size-5xl);
+    font-weight: 700;
+  }
+  
+  h2 {
+    font-size: var(--font-size-3xl);
+  }
+  
+  h3 {
+    font-size: var(--font-size-2xl);
+  }
 }
 
 @layer components {
+  /* Boutons style IMpakt28 */
   .btn {
-    @apply px-6 py-3 rounded-lg font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2;
+    @apply px-6 py-3 font-medium transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2 cursor-pointer inline-flex items-center justify-center;
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-subtle);
+  }
+  
+  .btn:hover {
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-medium);
   }
   
   .btn-primary {
-    @apply bg-primary text-white hover:opacity-90 focus:ring-primary;
+    background: var(--gradient-primary);
+    @apply text-white focus:ring-primary;
+  }
+  
+  .btn-primary:hover {
+    box-shadow: var(--shadow-colored);
   }
   
   .btn-accent {
-    @apply bg-accent text-foreground hover:opacity-90 focus:ring-accent;
+    @apply bg-accent text-foreground focus:ring-accent;
   }
   
+  .btn-creative {
+    background: var(--gradient-creative);
+    @apply text-white focus:ring-primary;
+  }
+  
+  /* Inputs style IMpakt28 */
   .input {
-    @apply w-full px-4 py-3 rounded-lg border border-gray-200 bg-surface text-foreground placeholder-muted focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-200;
+    @apply w-full px-4 py-3 text-foreground placeholder-muted focus:outline-none transition-all duration-200;
+    background-color: var(--color-input-bg);
+    border: 1px solid #e5e7eb;
+    border-radius: var(--radius-md);
+    font-size: var(--font-size-base);
   }
   
+  .input:focus {
+    @apply ring-2 ring-primary border-transparent;
+    box-shadow: var(--shadow-subtle);
+  }
+  
+  /* Cartes style IMpakt28 */
   .card {
-    @apply bg-white rounded-xl shadow-sm border border-gray-100 p-6;
+    @apply bg-white p-6;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-subtle);
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
+  }
+  
+  .card:hover {
+    box-shadow: var(--shadow-medium);
+    transform: translateY(-2px);
+  }
+  
+  .card-gradient {
+    background: var(--gradient-primary);
+    @apply text-white;
+  }
+  
+  /* Sections avec espacement IMpakt28 */
+  .section {
+    @apply py-16 px-4;
+  }
+  
+  .section-hero {
+    @apply py-24;
+  }
+  
+  /* Container responsive */
+  .container {
+    @apply max-w-7xl mx-auto px-4;
+  }
+  
+  /* Gradients utilitaires */
+  .bg-gradient-primary {
+    background: var(--gradient-primary);
+  }
+  
+  .bg-gradient-creative {
+    background: var(--gradient-creative);
+  }
+  
+  .bg-gradient-diagonal {
+    background: var(--gradient-diagonal);
   }
 }
