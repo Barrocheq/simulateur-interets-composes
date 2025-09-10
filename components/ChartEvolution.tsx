@@ -18,40 +18,37 @@ interface ChartEvolutionProps {
   className?: string;
 }
 
-// Configuration des scénarios avec couleurs de la palette IMpakt28
+// Configuration des scénarios avec couleurs épurées
 const scenarios = [
   {
     key: 'pessimiste' as const,
-    name: 'Pessimiste (5%)',
-    color: '#DE1414', // Rouge
+    name: 'Conservateur (5%)',
+    color: '#ef4444', // red-500
     strokeWidth: 2,
   },
   {
     key: 'normal' as const,
-    name: 'Normal (8%)',
-    color: '#FE5B24', // Orange (primary)
+    name: 'Équilibré (8%)',
+    color: '#6b7280', // gray-500
     strokeWidth: 3,
   },
   {
     key: 'optimiste' as const,
-    name: 'Optimiste (10%)',
-    color: '#7000F4', // Violet (secondary)
+    name: 'Dynamique (10%)',
+    color: '#3b82f6', // blue-500
     strokeWidth: 2,
   },
 ];
 
 export default function ChartEvolution({ data, className = '' }: ChartEvolutionProps) {
-  // Tooltip moderne IMpakt28
+  // Tooltip épuré et simple
   const CustomTooltip = ({ active, payload, label }: any) => {
     if (active && payload && payload.length) {
       return (
-        <div className="bg-white/95 backdrop-blur-sm p-4 rounded-xl shadow-xl border border-gray-100 min-w-64">
-          <div className="flex items-center mb-3">
-            <div className="w-2 h-2 bg-primary rounded-full mr-2 animate-pulse"></div>
-            <p className="text-sm font-bold text-foreground">
-              Mois {label} ({Math.round(label / 12 * 10) / 10} an{label > 12 ? 's' : ''})
-            </p>
-          </div>
+        <div className="bg-white p-4 rounded-lg shadow-lg border border-gray-200">
+          <p className="text-sm font-semibold text-gray-900 mb-3">
+            Mois {label}
+          </p>
           <div className="space-y-2">
             {payload
               .sort((a: any, b: any) => b.value - a.value)
@@ -60,21 +57,21 @@ export default function ChartEvolution({ data, className = '' }: ChartEvolutionP
                 const gain = entry.value - initialValue;
                 const gainPercentage = initialValue > 0 ? ((gain / initialValue) * 100).toFixed(1) : '0.0';
                 return (
-                  <div key={index} className="flex justify-between items-center">
+                  <div key={index} className="flex justify-between items-center min-w-48">
                     <div className="flex items-center">
                       <div 
                         className="w-3 h-3 rounded-full mr-2" 
                         style={{ backgroundColor: entry.color }}
                       ></div>
-                      <span className="text-xs font-medium text-muted">
+                      <span className="text-sm text-gray-700">
                         {entry.name.split('(')[0].trim()}
                       </span>
                     </div>
                     <div className="text-right">
-                      <p className="text-sm font-bold" style={{ color: entry.color }}>
+                      <p className="text-sm font-semibold text-gray-900">
                         {formatCurrency(entry.value)}
                       </p>
-                      <p className="text-xs text-muted">+{gainPercentage}%</p>
+                      <p className="text-xs text-gray-500">+{gainPercentage}%</p>
                     </div>
                   </div>
                 );
@@ -105,12 +102,14 @@ export default function ChartEvolution({ data, className = '' }: ChartEvolutionP
 
   if (!data || data.length === 0) {
     return (
-      <div className={`flex items-center justify-center h-96 bg-gradient-to-br from-surface to-background rounded-xl ${className}`}>
+      <div className={`flex items-center justify-center h-80 bg-gray-50 rounded-lg ${className}`}>
         <div className="text-center">
-          <div className="w-16 h-16 bg-gradient-primary rounded-full flex items-center justify-center mx-auto mb-4 opacity-50">
-            <span className="text-white text-2xl">📊</span>
+          <div className="w-12 h-12 bg-gray-200 rounded-lg flex items-center justify-center mx-auto mb-4">
+            <svg className="w-6 h-6 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+            </svg>
           </div>
-          <p className="text-muted font-medium">En attente des données...</p>
+          <p className="text-gray-500 text-sm">Graphique en attente des données</p>
         </div>
       </div>
     );
@@ -118,70 +117,56 @@ export default function ChartEvolution({ data, className = '' }: ChartEvolutionP
 
   return (
     <div className={`w-full ${className}`}>
-      {/* Header avec légende interactive */}
-      <div className="mb-6">
-        <div className="flex flex-wrap justify-center gap-6 mb-4">
-          {scenarios.map(scenario => (
-            <div key={scenario.key} className="flex items-center space-x-2">
-              <div 
-                className="w-4 h-4 rounded-full shadow-sm"
-                style={{ backgroundColor: scenario.color }}
-              ></div>
-              <span className="text-sm font-medium text-foreground">
-                {scenario.name}
-              </span>
-            </div>
-          ))}
-        </div>
+      {/* Légende simple */}
+      <div className="flex items-center justify-center space-x-8 mb-6 pb-4 border-b border-gray-100">
+        {scenarios.map(scenario => (
+          <div key={scenario.key} className="flex items-center space-x-2">
+            <div 
+              className="w-3 h-3 rounded-full"
+              style={{ backgroundColor: scenario.color }}
+            ></div>
+            <span className="text-sm font-medium text-gray-700">
+              {scenario.name}
+            </span>
+          </div>
+        ))}
       </div>
       
-      {/* Graphique avec design moderne */}
-      <div className="relative bg-gradient-to-br from-white to-surface/50 rounded-xl p-4 shadow-sm border border-gray-100">
-        <ResponsiveContainer width="100%" height={450}>
+      {/* Graphique épuré */}
+      <div className="bg-white rounded-lg border border-gray-200 p-4">
+        <ResponsiveContainer width="100%" height={400}>
           <LineChart
             data={data}
             margin={{
-              top: 30,
-              right: 40,
-              left: 30,
-              bottom: 30,
+              top: 20,
+              right: 30,
+              left: 20,
+              bottom: 20,
             }}
           >
-            {/* Grille avec style moderne */}
             <CartesianGrid 
-              strokeDasharray="2 4" 
+              strokeDasharray="2 2" 
               stroke="#f3f4f6" 
-              opacity={0.8}
               vertical={false}
             />
             
             <XAxis
               dataKey="month"
-              tick={{ fontSize: 11, fill: '#9ca3af', fontWeight: 500 }}
+              tick={{ fontSize: 12, fill: '#6b7280' }}
               tickFormatter={formatXAxis}
-              axisLine={{ stroke: '#e5e7eb', strokeWidth: 1 }}
+              axisLine={{ stroke: '#e5e7eb' }}
               tickLine={{ stroke: '#e5e7eb' }}
-              tickMargin={10}
             />
             
             <YAxis
-              tick={{ fontSize: 11, fill: '#9ca3af', fontWeight: 500 }}
+              tick={{ fontSize: 12, fill: '#6b7280' }}
               tickFormatter={formatYAxis}
-              axisLine={{ stroke: '#e5e7eb', strokeWidth: 1 }}
+              axisLine={{ stroke: '#e5e7eb' }}
               tickLine={{ stroke: '#e5e7eb' }}
               width={70}
-              tickMargin={10}
             />
             
-            <Tooltip 
-              content={<CustomTooltip />}
-              cursor={{
-                stroke: '#FE5B24',
-                strokeWidth: 1,
-                strokeDasharray: '4 4',
-                strokeOpacity: 0.5
-              }}
-            />
+            <Tooltip content={<CustomTooltip />} />
             
             {scenarios.map(scenario => (
               <Line
@@ -193,21 +178,15 @@ export default function ChartEvolution({ data, className = '' }: ChartEvolutionP
                 name={scenario.name}
                 dot={false}
                 activeDot={{
-                  r: 5,
+                  r: 4,
                   fill: scenario.color,
                   stroke: '#fff',
-                  strokeWidth: 3,
-                  filter: 'drop-shadow(0 2px 4px rgba(0,0,0,0.1))'
+                  strokeWidth: 2,
                 }}
-                strokeLinecap="round"
-                strokeLinejoin="round"
               />
             ))}
           </LineChart>
         </ResponsiveContainer>
-        
-        {/* Gradient overlay pour l'effet moderne */}
-        <div className="absolute bottom-0 left-0 right-0 h-8 bg-gradient-to-t from-white to-transparent rounded-b-xl pointer-events-none"></div>
       </div>
     </div>
   );

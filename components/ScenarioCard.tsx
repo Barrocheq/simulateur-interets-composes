@@ -29,100 +29,74 @@ export default function ScenarioCard({
   const totalGain = finalResult ? finalResult.finalAmount - principal : 0;
   const totalGainPercentage = principal > 0 ? (totalGain / principal) * 100 : 0;
   
+  // Couleurs simplifiées et professionnelles
+  const getColor = (scenarioName: string) => {
+    if (scenarioName.toLowerCase().includes('pessimiste')) return 'rgb(239, 68, 68)'; // red-500
+    if (scenarioName.toLowerCase().includes('normal')) return 'rgb(107, 114, 128)'; // gray-500
+    return 'rgb(59, 130, 246)'; // blue-500
+  };
+  
+  const scenarioColor = getColor(name);
+  
   return (
-    <div className={`card group hover:scale-105 transition-all duration-300 ${className}`}>
-      {/* Header moderne avec icône */}
-      <div className="mb-6">
-        <div className="flex items-center justify-between mb-3">
-          <div className="flex items-center space-x-3">
-            <div 
-              className="w-10 h-10 rounded-lg flex items-center justify-center"
-              style={{ background: `linear-gradient(135deg, ${color}, ${color}dd)` }}
-            >
-              <span className="text-white font-bold text-lg">
-                {name.charAt(0)}
-              </span>
-            </div>
-            <h3 className="text-xl font-bold text-foreground">{name}</h3>
-          </div>
-          
-          <div 
-            className="px-4 py-2 rounded-full text-sm font-bold text-white shadow-sm"
-            style={{ backgroundColor: color }}
-          >
-            {formatPercentage(rate)}
-          </div>
+    <div className={`card ${className}`}>
+      {/* Header épuré */}
+      <div className="flex items-center justify-between mb-6">
+        <div>
+          <h3 className="text-lg font-semibold text-gray-900">{name}</h3>
+          <p className="text-sm text-gray-500">Taux annuel</p>
         </div>
-        
-        {/* Gain total highlight */}
-        <div className="bg-gradient-to-r from-surface to-transparent p-3 rounded-lg border-l-4" style={{ borderColor: color }}>
-          <div className="flex justify-between items-center">
-            <div>
-              <p className="text-xs font-medium text-muted uppercase tracking-wide">Gain total sur 3 ans</p>
-              <p className="text-2xl font-bold text-foreground">+{formatCurrency(totalGain)}</p>
-            </div>
-            <div className="text-right">
-              <p className="text-xs text-muted">Performance</p>
-              <p className="text-lg font-bold" style={{ color }}>
-                +{totalGainPercentage.toFixed(1)}%
-              </p>
-            </div>
+        <div className="text-right">
+          <div className="text-2xl font-bold" style={{ color: scenarioColor }}>
+            {formatPercentage(rate)}
           </div>
         </div>
       </div>
       
-      {/* Détail par horizon avec timeline */}
-      <div className="space-y-4">
-        <h4 className="text-sm font-semibold text-muted uppercase tracking-wide mb-3">
-          Évolution par étape
+      {/* Résultat final mis en avant */}
+      <div className="bg-gray-50 rounded-lg p-4 mb-6">
+        <div className="text-center">
+          <p className="text-sm text-gray-600 mb-1">Capital final (3 ans)</p>
+          <p className="text-3xl font-bold text-gray-900 mb-2">
+            {formatCurrency(finalResult?.finalAmount || 0)}
+          </p>
+          <div className="flex items-center justify-center space-x-4 text-sm">
+            <span className="text-gray-600">
+              Gain : <span className="font-medium" style={{ color: scenarioColor }}>
+                +{formatCurrency(totalGain)}
+              </span>
+            </span>
+            <span className="text-gray-400">•</span>
+            <span className="text-gray-600">
+              +{totalGainPercentage.toFixed(1)}%
+            </span>
+          </div>
+        </div>
+      </div>
+      
+      {/* Détail par horizon simplifie */}
+      <div className="space-y-3">
+        <h4 className="text-sm font-medium text-gray-700 mb-3">
+          Évolution par année
         </h4>
         
-        {results.map(({ months, years, finalAmount }, index) => {
+        {results.map(({ months, years, finalAmount }) => {
           const gain = finalAmount - principal;
           const gainPercentage = principal > 0 ? (gain / principal) * 100 : 0;
-          const isLast = index === results.length - 1;
           
           return (
-            <div key={months} className="relative">
-              {/* Timeline */}
-              <div className="flex items-center">
-                <div className="flex flex-col items-center mr-4">
-                  <div 
-                    className={`w-3 h-3 rounded-full ${
-                      isLast ? 'ring-2 ring-offset-2' : ''
-                    }`}
-                    style={{ 
-                      backgroundColor: color,
-                      ...(isLast ? { '--tw-ring-color': color } as React.CSSProperties : {})
-                    }}
-                  ></div>
-                  {!isLast && (
-                    <div 
-                      className="w-0.5 h-6 mt-2"
-                      style={{ backgroundColor: `${color}30` }}
-                    ></div>
-                  )}
+            <div key={months} className="flex items-center justify-between py-2 border-b border-gray-100 last:border-b-0">
+              <div>
+                <span className="text-sm font-medium text-gray-900">
+                  Année {years}
+                </span>
+              </div>
+              <div className="text-right">
+                <div className="text-sm font-semibold text-gray-900">
+                  {formatCurrency(finalAmount)}
                 </div>
-                
-                {/* Contenu */}
-                <div className="flex-1 min-w-0">
-                  <div className="flex justify-between items-start">
-                    <div>
-                      <p className="text-sm font-semibold text-foreground">
-                        {years} an{years > 1 ? 's' : ''}
-                      </p>
-                      <p className="text-xs text-muted">
-                        +{formatCurrency(gain)} ({gainPercentage.toFixed(1)}%)
-                      </p>
-                    </div>
-                    <div className="text-right ml-2">
-                      <p className={`font-bold ${
-                        isLast ? 'text-lg' : 'text-base'
-                      }`} style={{ color: isLast ? color : undefined }}>
-                        {formatCurrency(finalAmount)}
-                      </p>
-                    </div>
-                  </div>
+                <div className="text-xs text-gray-500">
+                  +{gainPercentage.toFixed(1)}%
                 </div>
               </div>
             </div>
@@ -130,13 +104,10 @@ export default function ScenarioCard({
         })}
       </div>
       
-      {/* Call-to-action subtil */}
-      <div className="mt-6 pt-4 border-t border-gray-100">
-        <div className="text-center">
-          <p className="text-xs text-muted">
-            Simulation avec capitalisation annuelle
-          </p>
-        </div>
+      <div className="mt-4 pt-4 border-t border-gray-100">
+        <p className="text-xs text-center text-gray-500">
+          Capitalisation annuelle
+        </p>
       </div>
     </div>
   );
