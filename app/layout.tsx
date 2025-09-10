@@ -2,10 +2,10 @@ import type { Metadata } from 'next'
 import './globals.css'
 
 export const metadata: Metadata = {
-  title: 'Simulateur d\'Intérêts Composés',
+  title: 'Impakt28 - Simulateur d\'Intérêt',
   description: 'Simulez l\'évolution de votre capital avec différents scénarios de rendement',
-  keywords: ['finance', 'intérêts composés', 'investissement', 'simulation'],
-  authors: [{ name: 'IMpakt28' }],
+  keywords: ['finance', 'intérêts composés', 'investissement', 'simulation', 'Impakt28'],
+  authors: [{ name: 'Impakt28' }],
 }
 
 export default function RootLayout({

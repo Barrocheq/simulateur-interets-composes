@@ -44,11 +44,11 @@ export default function HomePage() {
         <div className="container section-hero">
           <div className="max-w-4xl mx-auto text-center">
             <div className="inline-flex items-center px-3 py-1 bg-gray-100 rounded-full text-xs font-medium text-gray-600 uppercase tracking-wider mb-8">
-              Outil financier professionnel
+              Impakt28
             </div>
             
             <h1 className="text-hero text-gray-900 mb-6">
-              Simulateur d'Intérêts Composés
+              Simulateur d'Intérêt
             </h1>
             
             <p className="text-subtitle max-w-2xl mx-auto mb-12">
@@ -206,7 +206,7 @@ export default function HomePage() {
           <div className="text-center">
             <div className="mb-6">
               <h3 className="text-lg font-semibold text-gray-900 mb-2">
-                Simulateur d'Intérêts Composés
+                Impakt28 - Simulateur d'Intérêt
               </h3>
               <p className="text-gray-600 text-sm">
                 Outil éducatif pour vos projections financières
