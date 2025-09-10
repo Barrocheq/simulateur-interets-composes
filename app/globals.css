@@ -54,18 +54,23 @@
 }
 
 @layer components {
-  /* Boutons épurés et professionnels */
+  /* Boutons mobiles-first */
   .btn {
-    @apply px-6 py-3 font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 cursor-pointer inline-flex items-center justify-center;
+    @apply px-4 py-3 sm:px-6 sm:py-3 font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 cursor-pointer inline-flex items-center justify-center;
     border-radius: var(--radius-lg);
     font-size: var(--font-size-sm);
     font-weight: 500;
     letter-spacing: 0.025em;
     text-transform: uppercase;
+    min-height: 44px; /* Touch target minimum */
   }
   
   .btn:hover {
     transform: translateY(-1px);
+  }
+  
+  .btn:active {
+    transform: translateY(0);
   }
   
   .btn-primary {
@@ -96,6 +101,7 @@
     background-color: transparent;
     color: var(--color-muted);
     @apply focus:ring-gray-300;
+    min-height: auto;
   }
   
   .btn-ghost:hover {
@@ -103,13 +109,14 @@
     color: var(--color-foreground);
   }
   
-  /* Inputs minimalistes */
+  /* Inputs mobile-optimized */
   .input {
-    @apply w-full px-4 py-3 text-foreground placeholder-muted focus:outline-none transition-all duration-200;
+    @apply w-full px-4 py-4 sm:py-3 text-foreground placeholder-muted focus:outline-none transition-all duration-200;
     background-color: var(--color-background);
     border: 1px solid var(--color-border);
     border-radius: var(--radius-lg);
     font-size: var(--font-size-base);
+    min-height: 44px; /* Touch target minimum */
   }
   
   .input:focus {
@@ -121,19 +128,25 @@
     border-color: var(--gray-300);
   }
   
-  /* Cartes épurées */
+  /* Cartes mobile-friendly */
   .card {
     @apply bg-white;
     border-radius: var(--radius-xl);
     box-shadow: var(--shadow-sm);
     border: 1px solid var(--color-border);
     transition: all 0.2s ease;
-    padding: var(--space-6);
+    padding: var(--space-4);
   }
   
   .card:hover {
     box-shadow: var(--shadow-md);
     border-color: var(--gray-300);
+  }
+  
+  @media (min-width: 640px) {
+    .card {
+      padding: var(--space-6);
+    }
   }
   
   .card-minimal {
@@ -143,17 +156,29 @@
     padding: var(--space-8);
   }
   
-  /* Sections avec espacement cohérent */
+  /* Sections mobile-first */
   .section {
-    padding-top: var(--space-16);
-    padding-bottom: var(--space-16);
+    padding-top: var(--space-8);
+    padding-bottom: var(--space-8);
     padding-left: var(--space-4);
     padding-right: var(--space-4);
   }
   
   .section-hero {
-    padding-top: var(--space-20);
-    padding-bottom: var(--space-20);
+    padding-top: var(--space-12);
+    padding-bottom: var(--space-12);
+  }
+  
+  @media (min-width: 640px) {
+    .section {
+      padding-top: var(--space-16);
+      padding-bottom: var(--space-16);
+    }
+    
+    .section-hero {
+      padding-top: var(--space-20);
+      padding-bottom: var(--space-20);
+    }
   }
   
   /* Container responsive */
