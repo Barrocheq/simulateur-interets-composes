@@ -147,18 +147,10 @@ export default function HomePage() {
               </div>
             ) : (
               <div className="space-y-8">
-                {/* Graphique */}
-                <div className="card">
-                  <h2 className="text-xl font-semibold text-foreground mb-6">
-                    📊 Évolution du capital sur 36 mois
-                  </h2>
-                  <ChartEvolution data={simulationData?.monthlyData || []} />
-                </div>
-
-                {/* Cartes de scénarios */}
+                {/* Cartes de scénarios (maintenant en premier) */}
                 <div>
-                  <h2 className="text-xl font-semibold text-foreground mb-6">
-                    🎯 Résultats par scénario
+                  <h2 className="text-xl font-semibold text-gray-900 mb-6">
+                    Résultats par scénario
                   </h2>
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                     {scenariosData.map((scenario) => (
@@ -167,15 +159,23 @@ export default function HomePage() {
                         name={scenario.name}
                         rate={scenario.rate}
                         color={
-                          scenario.key === 'pessimiste' ? '#DE1414' :
-                          scenario.key === 'normal' ? '#FE5B24' :
-                          '#7000F4'
+                          scenario.key === 'pessimiste' ? '#ef4444' :
+                          scenario.key === 'normal' ? '#6b7280' :
+                          '#3b82f6'
                         }
                         results={scenario.results}
                         principal={capital}
                       />
                     ))}
                   </div>
+                </div>
+
+                {/* Graphique (maintenant en second) */}
+                <div className="card">
+                  <h2 className="text-xl font-semibold text-gray-900 mb-6">
+                    Évolution du capital sur 36 mois
+                  </h2>
+                  <ChartEvolution data={simulationData?.monthlyData || []} />
                 </div>
 
                 {/* Disclaimer */}
