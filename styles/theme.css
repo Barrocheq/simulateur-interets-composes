@@ -1,0 +1,15 @@
+/* Design System - Palette IMpakt28 inspirée */
+:root {
+  --color-primary: #FE5B24;      /* Orange énergique */
+  --color-secondary: #7000F4;    /* Violet moderne */
+  --color-accent: #FFD800;       /* Jaune vif (CTA) */
+  --color-background: #FFFFFE;   /* Blanc cassé */
+  --color-foreground: #000001;   /* Noir profond */
+  --color-muted: #444444;        /* Gris pour texte secondaire */
+  --color-error: #DE1414;        /* Rouge pour erreurs */
+  --color-surface: #FAFBFD;      /* Surface légèrement teintée */
+  
+  /* Gradients inspirés d'IMpakt28 */
+  --gradient-primary: linear-gradient(135deg, var(--color-primary) 0%, var(--color-secondary) 100%);
+  --gradient-accent: linear-gradient(135deg, var(--color-primary) 0%, var(--color-error) 50%, #FF69B4 100%);
+}
