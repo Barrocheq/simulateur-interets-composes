@@ -5,24 +5,28 @@ import { ImpactData, formatImpactDescription } from '@/lib/impact';
 interface ImpactCardProps {
   impact: ImpactData;
   isHighlighted?: boolean;
+  onClick?: () => void;
 }
 
-export default function ImpactCard({ impact, isHighlighted = false }: ImpactCardProps) {
+export default function ImpactCard({ impact, isHighlighted = false, onClick }: ImpactCardProps) {
   const hasImpact = impact.quantity > 0;
   
   return (
     <div 
       className={`
-        relative overflow-hidden rounded-xl border transition-all duration-300
+        relative overflow-hidden rounded-xl border transition-all duration-300 
+        ${onClick ? 'cursor-pointer' : ''}
         ${isHighlighted 
           ? 'border-green-400 shadow-lg scale-105' 
           : 'border-neutral-200 hover:border-green-300 hover:shadow-md'
         }
         ${hasImpact ? 'bg-white' : 'bg-neutral-50'}
+        ${onClick ? 'hover:scale-102 active:scale-98' : ''}
       `}
       style={{
         background: hasImpact ? `linear-gradient(135deg, white 0%, ${impact.gradient?.replace('var(--gradient-', '').replace(')', '')}20 100%)` : undefined
       }}
+      onClick={onClick}
     >
       {/* Indicateur d'impact en haut à droite */}
       {hasImpact && (
@@ -77,6 +81,21 @@ export default function ImpactCard({ impact, isHighlighted = false }: ImpactCard
           {impact.description}
         </p>
         
+        {/* Coût par unité avec bouton d'action */}
+        <div className="mt-3 flex items-center justify-between">
+          <div className="text-xs text-neutral-500 font-medium">
+            {impact.costPerUnit.toLocaleString('fr-FR')}€ par {impact.unit}
+          </div>
+          {onClick && (
+            <button className="text-xs text-green-600 font-medium hover:text-green-700 flex items-center">
+              Investir 
+              <svg className="w-3 h-3 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+              </svg>
+            </button>
+          )}
+        </div>
+        
         {/* Barre de progression visuelle si impact > 0 */}
         {hasImpact && (
           <div className="mt-4">
@@ -100,8 +119,7 @@ function getMaxQuantity(type: ImpactData['type']): number {
   switch (type) {
     case 'housing': return 10;
     case 'education': return 15;
-    case 'mobility': return 20;
-    case 'nature': return 1000;
+    case 'mobility': return 50;
     default: return 10;
   }
 }

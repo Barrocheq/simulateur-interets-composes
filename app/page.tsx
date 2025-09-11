@@ -13,6 +13,7 @@ import { calculateImpacts, getPrimaryImpact } from '@/lib/impact';
 export default function HomePage() {
   const [capital, setCapital] = useState<number | null>(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [selectedInvestment, setSelectedInvestment] = useState<string | null>(null);
 
   // Calculs mémorisés pour éviter les recalculs inutiles
   const simulationData = useMemo(() => {
@@ -45,47 +46,59 @@ export default function HomePage() {
 
   const resetSimulation = () => {
     setCapital(null);
+    setSelectedInvestment(null);
+  };
+
+  const handleInvestmentSelect = (investmentType: string, amount: number) => {
+    setSelectedInvestment(investmentType);
+    setCapital(amount);
+  };
+
+  // Descriptions des investissements
+  const getInvestmentDescription = (type: string) => {
+    const descriptions = {
+      housing: "Investissement dans le logement social - Financement de la construction et rénovation de logements abordables pour les familles à revenus modestes. Impact direct sur la réduction de la précarité résidentielle.",
+      education: "Investissement dans l'éducation - Financement de la scolarisation d'enfants défavorisés avec fournitures scolaires, soutien pédagogique et suivi personnalisé. Création d'opportunités d'avenir durables.",
+      mobility: "Investissement dans la mobilité durable - Distribution de scooters électriques pour faciliter l'accès à l'emploi et aux services essentiels. Réduction de l'empreinte carbone et amélioration de l'autonomie."
+    };
+    return descriptions[type as keyof typeof descriptions] || "";
   };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-neutral-50 via-white to-green-50">
-      {/* Header Impact - mobile-optimized */}
+      {/* Header Impact - compact */}
       <header className="border-b border-green-100 bg-gradient-to-r from-white to-green-50 sticky top-0 z-10">
-        <div className="px-4 py-6 sm:py-8 md:py-12">
+        <div className="px-4 py-3 sm:py-4">
           <div className="max-w-5xl mx-auto text-center">
-            <div className="inline-flex items-center px-4 py-2 bg-green-100 rounded-full text-sm font-medium text-green-800 mb-4 sm:mb-6">
+            <div className="inline-flex items-center px-3 py-1 bg-green-100 rounded-full text-xs sm:text-sm font-medium text-green-800 mb-2 sm:mb-3">
               🌱 Impakt28 - Investissement à Impact
             </div>
             
-            <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-neutral-900 mb-3 sm:mb-4">
+            <h1 className="text-xl sm:text-2xl md:text-3xl font-bold text-neutral-900 mb-2">
               Simulateur d'Impact Social
             </h1>
             
-            <p className="text-base sm:text-lg text-neutral-700 max-w-3xl mx-auto mb-4 px-2 leading-relaxed">
+            <p className="text-sm sm:text-base text-neutral-700 max-w-2xl mx-auto mb-2 px-2">
               Découvrez comment votre investissement peut générer des rendements financiers 
               tout en créant un impact social et environnemental positif.
             </p>
-            <p className="text-sm text-neutral-500 max-w-2xl mx-auto mb-6 sm:mb-8 px-2 italic">
+            <p className="text-xs text-neutral-500 max-w-xl mx-auto mb-3 px-2 italic">
               *Outil de simulation éducative - Ne constitue pas un conseil en investissement
             </p>
             
-            {/* Indicateurs d'impact */}
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-6 text-sm text-neutral-600">
-              <div className="flex items-center space-x-2">
-                <div className="w-3 h-3 rounded-full bg-green-400"></div>
-                <span className="font-medium">Logement Social</span>
+            {/* Indicateurs d'impact - compact */}
+            <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-4 text-xs sm:text-sm text-neutral-600">
+              <div className="flex items-center space-x-1">
+                <div className="w-2 h-2 rounded-full bg-green-400"></div>
+                <span className="font-medium">Logement</span>
               </div>
-              <div className="flex items-center space-x-2">
-                <div className="w-3 h-3 rounded-full bg-blue-400"></div>
+              <div className="flex items-center space-x-1">
+                <div className="w-2 h-2 rounded-full bg-blue-400"></div>
                 <span className="font-medium">Éducation</span>
               </div>
-              <div className="flex items-center space-x-2">
-                <div className="w-3 h-3 rounded-full bg-purple-400"></div>
-                <span className="font-medium">Mobilité Durable</span>
-              </div>
-              <div className="flex items-center space-x-2">
-                <div className="w-3 h-3 rounded-full bg-emerald-400"></div>
-                <span className="font-medium">Reforestation</span>
+              <div className="flex items-center space-x-1">
+                <div className="w-2 h-2 rounded-full bg-purple-400"></div>
+                <span className="font-medium">Mobilité</span>
               </div>
             </div>
           </div>
@@ -181,9 +194,35 @@ export default function HomePage() {
                         key={key}
                         impact={impact}
                         isHighlighted={getPrimaryImpact(capital).type === impact.type}
+                        onClick={() => handleInvestmentSelect(impact.type, impact.costPerUnit)}
                       />
                     ))}
                   </div>
+
+                  {/* Description de l'investissement sélectionné */}
+                  {selectedInvestment && (
+                    <div className="bg-gradient-to-r from-green-50 to-green-100 rounded-xl border border-green-200 p-4 sm:p-6 mt-4">
+                      <div className="flex items-start space-x-3">
+                        <div className="w-8 h-8 bg-green-600 rounded-lg flex items-center justify-center text-white text-sm font-bold">
+                          💡
+                        </div>
+                        <div className="flex-1">
+                          <h3 className="font-semibold text-green-800 mb-2">
+                            Focus sur votre investissement à impact
+                          </h3>
+                          <p className="text-sm text-green-700 leading-relaxed">
+                            {getInvestmentDescription(selectedInvestment)}
+                          </p>
+                          <button
+                            onClick={() => setSelectedInvestment(null)}
+                            className="mt-3 text-xs text-green-600 hover:text-green-800 underline"
+                          >
+                            Voir tous les impacts
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  )}
                 </div>
                 
                 {/* Cartes de scénarios financiers - Mobile: 1 colonne, Tablet: 2, Desktop: 3 */}
@@ -204,6 +243,7 @@ export default function HomePage() {
                         }
                         results={scenario.results}
                         principal={capital}
+                        monthlyRate={scenario.monthlyRate}
                       />
                     ))}
                   </div>
@@ -212,7 +252,7 @@ export default function HomePage() {
                 {/* Graphique mobile-optimized */}
                 <div className="bg-white rounded-xl border border-green-200 p-4 sm:p-6 shadow-sm">
                   <h2 className="text-lg sm:text-xl font-semibold text-neutral-900 mb-4 sm:mb-6">
-                    📈 Évolution de votre Capital sur 36 mois
+                    📈 Évolution de votre Capital sur 14 mois
                   </h2>
                   <div className="-mx-2 sm:mx-0">
                     <ChartEvolution data={simulationData?.monthlyData || []} />

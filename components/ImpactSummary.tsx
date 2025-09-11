@@ -8,7 +8,7 @@ interface ImpactSummaryProps {
 
 export default function ImpactSummary({ amount }: ImpactSummaryProps) {
   const stats = getImpactStats(amount);
-  const { primaryImpact, totalBeneficiaires, treesPlanted } = stats;
+  const { primaryImpact, totalBeneficiaires } = stats;
   
   return (
     <div className="bg-gradient-to-r from-green-50 to-green-100 border border-green-200 rounded-xl p-4 sm:p-6">
@@ -41,10 +41,10 @@ export default function ImpactSummary({ amount }: ImpactSummaryProps) {
                   <div className="text-green-600">bénéficiaires</div>
                 </div>
               )}
-              {treesPlanted > 0 && (
+              {primaryImpact.costPerUnit && (
                 <div className="text-center">
-                  <div className="font-bold text-green-800">{treesPlanted.toLocaleString('fr-FR')}</div>
-                  <div className="text-green-600">arbres</div>
+                  <div className="font-bold text-green-800">{primaryImpact.costPerUnit.toLocaleString('fr-FR')}€</div>
+                  <div className="text-green-600">par {primaryImpact.unit}</div>
                 </div>
               )}
             </div>

@@ -18,7 +18,7 @@ export default function ProjectsSection() {
         </div>
         
         {/* Grille des projets */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8 mb-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8 mb-12">
           
           {/* Projet Logement */}
           <div className="group bg-white rounded-2xl border border-green-200 p-6 hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
@@ -66,25 +66,8 @@ export default function ProjectsSection() {
               Distribution de scooters électriques pour faciliter l'accès à l'emploi et aux services.
             </p>
             <div className="bg-purple-50 rounded-lg p-3 text-sm">
-              <div className="font-semibold text-purple-800">10 000€ = 10 familles équipées</div>
+              <div className="font-semibold text-purple-800">1 000€ = 1 scooter électrique</div>
               <div className="text-purple-600">Transport écologique et autonomie</div>
-            </div>
-          </div>
-          
-          {/* Projet Nature */}
-          <div className="group bg-white rounded-2xl border border-green-200 p-6 hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
-            <div className="w-14 h-14 bg-gradient-to-br from-green-500 to-emerald-600 rounded-2xl flex items-center justify-center text-2xl mb-4 group-hover:scale-110 transition-transform">
-              🌱
-            </div>
-            <h3 className="font-bold text-neutral-900 text-lg mb-2">
-              Reforestation
-            </h3>
-            <p className="text-neutral-600 text-sm mb-4 leading-relaxed">
-              Plantation d'arbres indigènes pour restaurer la biodiversité et capturer le CO2.
-            </p>
-            <div className="bg-green-50 rounded-lg p-3 text-sm">
-              <div className="font-semibold text-green-800">500€ = 100 arbres plantés</div>
-              <div className="text-green-600">Climat et biodiversité préservés</div>
             </div>
           </div>
         </div>

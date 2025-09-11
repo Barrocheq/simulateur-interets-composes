@@ -2,7 +2,7 @@
 // Basé sur les montants d'investissement
 
 export interface ImpactData {
-  type: 'housing' | 'education' | 'mobility' | 'nature';
+  type: 'housing' | 'education' | 'mobility';
   title: string;
   description: string;
   quantity: number;
@@ -10,21 +10,20 @@ export interface ImpactData {
   icon: string;
   color: string;
   gradient: string;
+  costPerUnit: number;
 }
 
 export interface ImpactCalculation {
   housing: ImpactData;
   education: ImpactData;
   mobility: ImpactData;
-  nature: ImpactData;
 }
 
 // Coûts de référence pour les impacts sociaux
 const IMPACT_COSTS = {
   housing: 10000,      // 10k€ pour loger une famille
   education: 6000,     // 6k€ pour l'éducation d'un enfant pendant 1 an
-  mobility: 1000,      // 1k€ pour un scooter électrique par famille (10k€ pour 10 familles)
-  nature: 500,         // 500€ pour planter 100 arbres
+  mobility: 1000,      // 1k€ pour un scooter électrique par famille
 } as const;
 
 // Configuration des impacts
@@ -35,7 +34,8 @@ const IMPACT_CONFIG = {
     unit: 'famille',
     icon: '🏠',
     color: 'var(--impact-housing)',
-    gradient: 'var(--gradient-housing)'
+    gradient: 'var(--gradient-housing)',
+    costPerUnit: 10000
   },
   education: {
     title: 'Enfants scolarisés',
@@ -43,23 +43,17 @@ const IMPACT_CONFIG = {
     unit: 'enfant',
     icon: '📚',
     color: 'var(--impact-education)',
-    gradient: 'var(--gradient-education)'
+    gradient: 'var(--gradient-education)',
+    costPerUnit: 6000
   },
   mobility: {
-    title: 'Familles équipées',
-    description: 'Familles bénéficiant de moyens de transport électriques durables',
-    unit: 'famille',
+    title: 'Scooters électriques',
+    description: 'Scooters électriques fournis pour faciliter l\'accès à l\'emploi',
+    unit: 'scooter',
     icon: '🛵',
     color: 'var(--impact-mobility)',
-    gradient: 'var(--gradient-mobility)'
-  },
-  nature: {
-    title: 'Arbres plantés',
-    description: 'Arbres plantés pour la reforestation et la biodiversité',
-    unit: 'arbre',
-    icon: '🌱',
-    color: 'var(--impact-nature)',
-    gradient: 'var(--gradient-housing)'
+    gradient: 'var(--gradient-mobility)',
+    costPerUnit: 1000
   }
 } as const;
 
@@ -82,20 +76,13 @@ export function calculateImpacts(amount: number): ImpactCalculation {
   const mobility: ImpactData = {
     type: 'mobility',
     ...IMPACT_CONFIG.mobility,
-    quantity: Math.floor(amount / IMPACT_COSTS.mobility / 10) // 10 scooters par "famille équipée"
-  };
-
-  const nature: ImpactData = {
-    type: 'nature',
-    ...IMPACT_CONFIG.nature,
-    quantity: Math.floor(amount / IMPACT_COSTS.nature) * 100 // 100 arbres par tranche
+    quantity: Math.floor(amount / IMPACT_COSTS.mobility)
   };
 
   return {
     housing,
     education,
-    mobility,
-    nature
+    mobility
   };
 }
 
@@ -109,7 +96,7 @@ export function getPrimaryImpact(amount: number): ImpactData {
   if (impacts.housing.quantity >= 1) return impacts.housing;
   if (impacts.education.quantity >= 1) return impacts.education;
   if (impacts.mobility.quantity >= 1) return impacts.mobility;
-  return impacts.nature;
+  return impacts.housing; // Par défaut, retourne housing même avec quantité 0
 }
 
 /**
@@ -134,8 +121,7 @@ function getActionVerb(type: ImpactData['type']): string {
   switch (type) {
     case 'housing': return 'logée(s)';
     case 'education': return 'scolarisé(e)(s)';
-    case 'mobility': return 'équipée(s)';
-    case 'nature': return 'planté(s)';
+    case 'mobility': return 'fourni(s)';
     default: return 'aidé(e)(s)';
   }
 }
@@ -147,8 +133,7 @@ export function getImpactStats(amount: number) {
   const impacts = calculateImpacts(amount);
   
   return {
-    totalBeneficiaries: impacts.housing.quantity + impacts.education.quantity + impacts.mobility.quantity,
-    treesPlanted: impacts.nature.quantity,
+    totalBeneficiaires: impacts.housing.quantity + impacts.education.quantity + impacts.mobility.quantity,
     primaryImpact: getPrimaryImpact(amount),
     allImpacts: impacts
   };
