@@ -75,7 +75,7 @@ export default function HomePage() {
             </div>
             
             <h1 className="text-xl sm:text-2xl md:text-3xl font-bold text-neutral-900 mb-2">
-              Simulateur d'Impact Social
+              Impakt28 - Gamification à intérêt
             </h1>
             
             <p className="text-sm sm:text-base text-neutral-700 max-w-2xl mx-auto mb-2 px-2">
