@@ -79,9 +79,9 @@ export default function FormCapital({ onSubmit, isLoading = false }: FormCapital
       <div>
         <label 
           htmlFor="capital"
-          className="block text-sm sm:text-base font-medium text-gray-700 mb-2"
+          className="block text-sm sm:text-base font-medium text-neutral-700 mb-2"
         >
-          Montant en euros
+          Montant à investir pour l'impact
         </label>
         
         <div className="relative">
@@ -100,8 +100,8 @@ export default function FormCapital({ onSubmit, isLoading = false }: FormCapital
               error 
                 ? 'border-red-300 focus:border-red-500 focus:ring-4 focus:ring-red-100 bg-red-50' 
                 : capital && isValid 
-                  ? 'border-green-300 focus:border-green-500 focus:ring-4 focus:ring-green-100 bg-green-50'
-                  : 'border-gray-200 focus:border-gray-400 focus:ring-4 focus:ring-gray-100 bg-white hover:border-gray-300'
+                  ? 'border-green-400 focus:border-green-500 focus:ring-4 focus:ring-green-100 bg-green-50'
+                  : 'border-neutral-200 focus:border-green-400 focus:ring-4 focus:ring-green-100 bg-white hover:border-green-300'
             }`}
             aria-describedby={error ? 'capital-error' : undefined}
             aria-invalid={!!error}
@@ -148,8 +148,8 @@ export default function FormCapital({ onSubmit, isLoading = false }: FormCapital
       <button
         type="submit"
         disabled={!isValid || isLoading}
-        className="w-full py-4 px-6 bg-gray-900 text-white font-semibold text-lg rounded-xl transition-all duration-200 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed disabled:active:scale-100 focus:outline-none focus:ring-4 focus:ring-gray-300 hover:bg-gray-800"
-        aria-label="Calculer les projections d'intérêts composés"
+        className="w-full py-4 px-6 bg-gradient-to-r from-green-600 to-green-700 text-white font-semibold text-lg rounded-xl transition-all duration-200 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed disabled:active:scale-100 focus:outline-none focus:ring-4 focus:ring-green-300 hover:from-green-700 hover:to-green-800"
+        aria-label="Calculer les projections d'impact social"
       >
         <div className="flex items-center justify-center">
           {isLoading ? (
@@ -163,9 +163,9 @@ export default function FormCapital({ onSubmit, isLoading = false }: FormCapital
           ) : (
             <>
               <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
               </svg>
-              Calculer
+              Calculer l'Impact
             </>
           )}
         </div>
